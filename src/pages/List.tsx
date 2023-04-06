@@ -1,9 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import styles from './List.module.scss'
+import { QuestionCard } from '../components/QuestionCard'
 
-const List: FC = () => {
+export const List: FC = () => {
   return (
     <>
-      <p>List</p>
+      <h1>List</h1>
+      <QuestionCard />
     </>
   )
 }
