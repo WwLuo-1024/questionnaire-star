@@ -46,7 +46,14 @@ export const List: FC = () => {
   return (
     <>
       <h1>List</h1>
-      <QuestionCard />
+      <div className={styles['header']}>
+        <div className={styles['left']}>
+          <h3>My Questionnaire</h3>
+        </div>
+        <div className={styles['right']}>Search</div>
+      </div>
+      <div>List</div>
+      <div>Footer</div>
     </>
   )
 }
