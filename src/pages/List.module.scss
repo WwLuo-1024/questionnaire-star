@@ -1,4 +1,4 @@
-.header{
+.header {
     display: flex; //flex layout
 
     .left{
@@ -10,4 +10,16 @@
         flex: 1;
         text-align: right;
     }
+}
+
+.content {
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+}
+
+body{
+    background-color: #f1f1f1;
 }

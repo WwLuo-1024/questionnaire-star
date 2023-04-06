@@ -4,7 +4,7 @@ import { QuestionCard } from '../components/QuestionCard'
 
 const rawQuestionList = [
   {
-    id: 'q1',
+    _id: 'q1', //mongoDB DataBase
     title: 'Question1',
     isPublished: false,
     isStar: false,
@@ -12,7 +12,7 @@ const rawQuestionList = [
     createAt: '06/04 23:36',
   },
   {
-    id: 'q2',
+    _id: 'q2',
     title: 'Question2',
     isPublished: true,
     isStar: false,
@@ -20,7 +20,7 @@ const rawQuestionList = [
     createAt: '05/04 23:36',
   },
   {
-    id: 'q3',
+    _id: 'q3',
     title: 'Question3',
     isPublished: false,
     isStar: false,
@@ -28,7 +28,7 @@ const rawQuestionList = [
     createAt: '04/04 23:36',
   },
   {
-    id: 'q4',
+    _id: 'q4',
     title: 'Question4',
     isPublished: true,
     isStar: false,
@@ -52,8 +52,13 @@ export const List: FC = () => {
         </div>
         <div className={styles['right']}>Search</div>
       </div>
-      <div>List</div>
-      <div>Footer</div>
+      <div className={styles['content']}>
+        {questionList.map(q => {
+          const { _id } = q
+          return <QuestionCard key={_id} {...q} />
+        })}
+      </div>
+      <div className={styles['footer']}>Footer</div>
     </>
   )
 }
