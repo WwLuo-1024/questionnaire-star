@@ -58,7 +58,7 @@ export const List: FC = () => {
           return <QuestionCard key={_id} {...q} />
         })}
       </div>
-      <div className={styles['footer']}>Footer</div>
+      <div className={styles['footer']}>List Page Footer</div>
     </>
   )
 }

@@ -9,11 +9,11 @@ export const ManageLayout: FC = () => {
         <p>ManageLayout</p>
         <button>Create Qustionaaire</button>
         <br />
-        <button>My Questionnaire</button>
+        <a href="#">My Questionnaire</a>
         <br />
-        <button>Star Questionnaire</button>
+        <a href="#">Star Questionnaire</a>
         <br />
-        <button>Recycle Bin</button>
+        <a href="#">Recycle Bin</a>
       </div>
       <div className={styles.right}>
         <Outlet />
