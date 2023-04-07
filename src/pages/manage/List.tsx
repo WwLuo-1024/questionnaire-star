@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react'
 import styles from './List.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 import { useSearchParams } from 'react-router-dom'
+import { useTitle } from 'ahooks'
+
 {
   /* Temporary Mock Data */
 }
@@ -41,6 +43,7 @@ const rawQuestionList = [
 ]
 
 export const List: FC = () => {
+  useTitle('Online Questionnaire - My Questionnaire')
   const [searchParams] = useSearchParams()
 
   console.log('keyword', searchParams.get('keyword'))
