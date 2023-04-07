@@ -1,7 +1,10 @@
 import React, { FC, useState } from 'react'
 import styles from './List.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
-
+import { useSearchParams } from 'react-router-dom'
+{
+  /* Temporary Mock Data */
+}
 const rawQuestionList = [
   {
     _id: 'q1', //mongoDB DataBase
@@ -38,9 +41,9 @@ const rawQuestionList = [
 ]
 
 export const List: FC = () => {
-  {
-    /* Temporary Mock Data */
-  }
+  const [searchParams] = useSearchParams()
+
+  console.log('keyword', searchParams.get('keyword'))
   const [questionList, setQuestionList] = useState(rawQuestionList)
 
   return (
