@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 import { useSearchParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
@@ -59,12 +59,14 @@ export const List: FC = () => {
         <div className={styles['right']}>Search</div>
       </div>
       <div className={styles['content']}>
-        {questionList.map(q => {
-          const { _id } = q
-          return <QuestionCard key={_id} {...q} />
-        })}
+        {/* Question List */}
+        {questionList.length > 0 &&
+          questionList.map(q => {
+            const { _id } = q
+            return <QuestionCard key={_id} {...q} />
+          })}
       </div>
-      <div className={styles['footer']}>List Page Footer</div>
+      <div className={styles['footer']}>Load More</div>
     </>
   )
 }
