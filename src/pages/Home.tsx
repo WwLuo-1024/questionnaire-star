@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import 'antd/dist/reset.css'
+import { Button } from 'antd'
 
 export const Home: FC = () => {
   const nav = useNavigate()
@@ -11,7 +13,7 @@ export const Home: FC = () => {
     <>
       <p>Home</p>
       <div>
-        <button onClick={clickHandler}>Login</button>
+        <Button onClick={clickHandler}>Login</Button>
         <Link to="/register">Register</Link>
       </div>
     </>
