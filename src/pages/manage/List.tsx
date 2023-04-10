@@ -3,6 +3,7 @@ import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 import { useSearchParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import { Typography } from 'antd'
 
 {
   /* Temporary Mock Data */
@@ -42,6 +43,7 @@ const rawQuestionList = [
   },
 ]
 
+const { Title } = Typography
 export const List: FC = () => {
   useTitle('Online Questionnaire - My Questionnaire')
   const [searchParams] = useSearchParams()
@@ -51,10 +53,9 @@ export const List: FC = () => {
 
   return (
     <>
-      <h1>List</h1>
       <div className={styles['header']}>
         <div className={styles['left']}>
-          <h3>My Questionnaire</h3>
+          <Title level={3}>My Questionnaire</Title>
         </div>
         <div className={styles['right']}>Search</div>
       </div>
