@@ -1,12 +1,13 @@
 import React, { FC } from 'react'
 import styles from './QuestionCard.module.scss'
-import { Button, Divider, Space, Tag } from 'antd'
+import { Button, Divider, Space, Tag, Popconfirm, Modal, message } from 'antd'
 import {
   EditOutlined,
   LineChartOutlined,
   StarOutlined,
   CopyOutlined,
   DeleteOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -20,9 +21,24 @@ type PropsType = {
   createAt: string
 }
 
+const { confirm } = Modal
+
 export const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, createAt, answerCount, isPublished, isStar } = props
   const nav = useNavigate()
+
+  function duplicate() {
+    message.success('Execute a copy')
+  }
+
+  function del() {
+    confirm({
+      title: 'Confirming the deletion of the questionnaire?',
+      icon: <ExclamationCircleOutlined />,
+      onOk: () => message.success('Successfully Deleted'),
+    })
+  }
+
   return (
     <div className={styles['container']}>
       {/* <p>Question Card Page {_id}</p> */}
@@ -78,10 +94,18 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
             <Button type="text" size="small" icon={<StarOutlined />}>
               {isStar ? 'Unstar' : 'Star'}
             </Button>
-            <Button type="text" size="small" icon={<CopyOutlined />}>
-              Copy
-            </Button>
-            <Button type="text" size="small" icon={<DeleteOutlined />}>
+            <Popconfirm
+              title="Confirming the duplication of the questionnaire?"
+              okText="Confirm"
+              cancelText="Cancel"
+              onConfirm={duplicate}
+            >
+              <Button type="text" size="small" icon={<CopyOutlined />}>
+                Copy
+              </Button>
+            </Popconfirm>
+
+            <Button type="text" size="small" icon={<DeleteOutlined />} onClick={del}>
               Delete
             </Button>
           </Space>
