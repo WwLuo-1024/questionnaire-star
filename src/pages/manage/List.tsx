@@ -67,7 +67,7 @@ export const List: FC = () => {
             return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles['footer']}>Load More</div>
+      <div className={styles['footer']}>Load More...</div>
     </>
   )
 }
