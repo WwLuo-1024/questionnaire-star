@@ -70,7 +70,7 @@ export const Recycle: FC = () => {
       title: 'Confirming the deletion of the questionnaire?',
       icon: <ExclamationCircleOutlined />,
       content: 'Cannot be retrieved after deletion',
-      onOk: () => alert(`Delete ${JSON.stringify(seletedIds)}`),
+      onOk: () => message.success(`Delete ${JSON.stringify(seletedIds)}`),
     })
   }
   //We can define a JSX fragment as a variable
