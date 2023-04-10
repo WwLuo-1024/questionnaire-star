@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
-import { useSearchParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
 import { Typography, Empty } from 'antd'
 
