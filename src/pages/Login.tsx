@@ -39,7 +39,7 @@ export const Login: FC = () => {
     console.log(values)
     const { username, password, remember } = values || {}
 
-    if (values.remember) {
+    if (remember) {
       rememberUser(username, password)
     } else {
       deleteFromStorage()
@@ -65,10 +65,25 @@ export const Login: FC = () => {
           onFinish={onFinish}
           form={form}
         >
-          <Form.Item label="Username" name="username">
+          {/* Username */}
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              { required: true, message: 'Please enter the username' },
+              { type: 'string', min: 5, max: 20, message: 'The length of username between 5-20' },
+              { pattern: /^\w+$/, message: 'Only letter, number and underline are accepted' },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Password" name="password">
+
+          {/* Password */}
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please enter the password' }]}
+          >
             <Input.Password />
           </Form.Item>
 
