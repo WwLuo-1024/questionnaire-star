@@ -5,7 +5,7 @@ import { useTitle } from 'ahooks'
 import { Typography, Empty, Table, Tag, Button, Space, Modal, message } from 'antd'
 import Column from 'antd/es/table/Column'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-
+import { ListSearch } from '../../components/ListSearch'
 const rawQuestionList = [
   {
     _id: 'q1', //mongoDB DataBase
@@ -108,7 +108,9 @@ export const Recycle: FC = () => {
         <div className={styles['left']}>
           <Title level={3}>Recycle Bin</Title>
         </div>
-        <div className={styles['right']}>Search</div>
+        <div className={styles['right']}>
+          <ListSearch />
+        </div>
       </div>
 
       <div className={styles.content}>

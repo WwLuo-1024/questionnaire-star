@@ -1,0 +1,6 @@
+/**
+ * @description Constant
+ * @author WwLuo
+ */
+
+export const LIST_SEARCH_PARAM_KEY = 'keyword'

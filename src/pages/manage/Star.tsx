@@ -3,6 +3,7 @@ import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 import { useTitle } from 'ahooks'
 import { Typography, Empty } from 'antd'
+import { ListSearch } from '../../components/ListSearch'
 
 const rawQuestionList = [
   {
@@ -41,7 +42,9 @@ export const Star: FC = () => {
         <div className={styles['left']}>
           <Title level={3}>Starred Questionnaire</Title>
         </div>
-        <div className={styles['right']}>Search</div>
+        <div className={styles['right']}>
+          <ListSearch />
+        </div>
       </div>
 
       <div className={styles['content']}>

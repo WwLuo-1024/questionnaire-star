@@ -4,6 +4,7 @@ import { QuestionCard } from '../../components/QuestionCard'
 import { useSearchParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
 import { Typography } from 'antd'
+import { ListSearch } from '../../components/ListSearch'
 
 {
   /* Temporary Mock Data */
@@ -57,7 +58,9 @@ export const List: FC = () => {
         <div className={styles['left']}>
           <Title level={3}>My Questionnaire</Title>
         </div>
-        <div className={styles['right']}>Search</div>
+        <div className={styles['right']}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles['content']}>
         {/* Question List */}
