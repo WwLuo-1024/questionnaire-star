@@ -1,6 +1,8 @@
 import axios, { ResDataType } from './ajax'
 type SearchOption = {
   keyword: string
+  isStar: boolean
+  isDeleted: boolean
   //page
   //pageSize
   //isStar

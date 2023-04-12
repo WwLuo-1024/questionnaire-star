@@ -2,41 +2,44 @@ import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 import { useTitle } from 'ahooks'
-import { Typography, Empty, Table, Tag, Button, Space, Modal, message } from 'antd'
+import { Typography, Empty, Table, Tag, Button, Space, Modal, message, Spin } from 'antd'
 import Column from 'antd/es/table/Column'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ListSearch } from '../../components/ListSearch'
-const rawQuestionList = [
-  {
-    _id: 'q1', //mongoDB DataBase
-    title: 'Question1',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createAt: '06/04 23:36',
-  },
-  {
-    _id: 'q2',
-    title: 'Question2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 5,
-    createAt: '05/04 23:36',
-  },
-  {
-    _id: 'q3',
-    title: 'Question3',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createAt: '04/04 23:36',
-  },
-]
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+// const rawQuestionList = [
+//   {
+//     _id: 'q1', //mongoDB DataBase
+//     title: 'Question1',
+//     isPublished: false,
+//     isStar: false,
+//     answerCount: 5,
+//     createAt: '06/04 23:36',
+//   },
+//   {
+//     _id: 'q2',
+//     title: 'Question2',
+//     isPublished: true,
+//     isStar: true,
+//     answerCount: 5,
+//     createAt: '05/04 23:36',
+//   },
+//   {
+//     _id: 'q3',
+//     title: 'Question3',
+//     isPublished: false,
+//     isStar: false,
+//     answerCount: 5,
+//     createAt: '04/04 23:36',
+//   },
+// ]
 
 export const Recycle: FC = () => {
   const { Title } = Typography
 
-  const [questionList, setQuestionList] = useState(rawQuestionList)
+  // const [questionList, setQuestionList] = useState(rawQuestionList)
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { list = [], total } = data
   const tableColumns = [
     {
       title: 'Ttile',
@@ -88,7 +91,7 @@ export const Recycle: FC = () => {
       </div>
 
       <Table
-        dataSource={questionList}
+        dataSource={list}
         columns={tableColumns}
         pagination={false}
         rowKey={q => q._id} //Tell table which property was used to be key
@@ -114,8 +117,13 @@ export const Recycle: FC = () => {
       </div>
 
       <div className={styles.content}>
-        {questionList.length === 0 && <Empty description="No Data Available" />}
-        {questionList.length > 0 && TableElem}
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="No Data Available" />}
+        {!loading && list.length > 0 && TableElem}
       </div>
     </>
   )
