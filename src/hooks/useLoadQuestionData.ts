@@ -14,6 +14,7 @@ function useLoadQuestionData() {
       setQuestionData(data)
       setLoading(false)
     }
+    fn()
   }, [])
 
   return { loading, questionData }
