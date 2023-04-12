@@ -4,21 +4,29 @@ import 'antd/dist/reset.css'
 import { Button, Typography } from 'antd'
 import { MANAGE_INDEX_PATHNAME } from '../router'
 import styles from './Home.module.scss'
-import '../_mock/index'
+// import '../_mock/index' //Mockjs needs to be commented out before going live
 import axios from 'axios'
+import { json } from 'stream/consumers'
 
 const { Title, Paragraph } = Typography
 export const Home: FC = () => {
   const nav = useNavigate()
 
-  useEffect(() => {
-    // fetch('/api/test')
-    //   .then(res => res.json())
-    //   .then(data => console.log('fetch data', data))
-    //fetch cannot get mock.js
+  //Mockjs
+  // useEffect(() => {
+  // fetch('/api/test')
+  //   .then(res => res.json())
+  //   .then(data => console.log('fetch data', data))
+  //fetch cyannot get mock.js
 
-    //axios uses XMLHttpRequest internally
-    axios.get('/api/test').then(res => console.log('axios data', res.data))
+  // axios uses XMLHttpRequest internally
+  //   axios.get('/api/test').then(res => console.log('axios data', res.data))
+  // }, [])
+
+  useEffect(() => {
+    fetch('/api/test')
+      .then(res => res.json())
+      .then(data => console.log('fetch data', data))
   }, [])
 
   function clickHandler() {
