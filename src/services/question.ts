@@ -1,4 +1,13 @@
 import axios, { ResDataType } from './ajax'
+type SearchOption = {
+  keyword: string
+  //page
+  //pageSize
+  //isStar
+  //isDeleted
+  //isPublished
+  //...
+}
 
 //Get signle questionnaire info
 export async function getQuestionService(id: string): Promise<ResDataType> {
@@ -15,8 +24,10 @@ export async function createQuestionService(): Promise<ResDataType> {
 }
 
 // Obtain(Query) questionnaire list
-export async function getQuestionListService(): Promise<ResDataType> {
+export async function getQuestionListService(
+  opt: Partial<SearchOption> = {}
+): Promise<ResDataType> {
   const url = '/api/question'
-  const data = (await axios.get(url)) as ResDataType
+  const data = (await axios.get(url, { params: opt })) as ResDataType
   return data
 }

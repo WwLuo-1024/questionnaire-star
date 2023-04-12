@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
-import { useSearchParams } from 'react-router-dom'
-import { useTitle, useRequest } from 'ahooks'
+// import { useSearchParams } from 'react-router-dom'
+import { useTitle } from 'ahooks'
 import { Typography, Spin } from 'antd'
 import { ListSearch } from '../../components/ListSearch'
-import { getQuestionListService } from '../../services/question'
-
+// import { getQuestionListService } from '../../services/question'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 {
   /* Temporary Mock Data */
 }
@@ -48,9 +48,10 @@ import { getQuestionListService } from '../../services/question'
 const { Title } = Typography
 export const List: FC = () => {
   useTitle('Online Questionnaire - My Questionnaire')
-  const [searchParams] = useSearchParams()
 
-  console.log('keyword', searchParams.get('keyword'))
+  // const [searchParams] = useSearchParams()
+  // console.log('keyword', searchParams.get('keyword'))
+
   // const [questionList, setQuestionList] = useState(rawQuestionList)
 
   // const [list, setList] = useState([])
@@ -65,7 +66,8 @@ export const List: FC = () => {
   //   load()
   // }, [])
 
-  const { data = {}, loading } = useRequest(getQuestionListService)
+  // const { data = {}, loading } = useRequest(getQuestionListService)
+  const { data = {}, loading } = useLoadQuestionListData()
   const { list = [], total = 0 } = data
   return (
     <>
