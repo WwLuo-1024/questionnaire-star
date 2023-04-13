@@ -61,13 +61,29 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
     }
   )
 
+  //Delete
+  const [isDeletedState, setIsDeletedState] = useState(false)
+  const { loading: deleteLoading, run: deleteQuestion } = useRequest(
+    async () => await updateQuestionService(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess() {
+        message.success('Successfully Delete')
+        setIsDeletedState(true)
+      },
+    }
+  )
+
   function del() {
     confirm({
       title: 'Confirming the deletion of the questionnaire?',
       icon: <ExclamationCircleOutlined />,
-      onOk: () => message.success('Successfully Deleted'),
+      onOk: deleteQuestion,
     })
   }
+
+  // Questionnaires that have been deleted and no longer render cards
+  if (isDeletedState) return null
 
   return (
     <div className={styles['container']}>
@@ -142,7 +158,13 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
               </Button>
             </Popconfirm>
 
-            <Button type="text" size="small" icon={<DeleteOutlined />} onClick={del}>
+            <Button
+              type="text"
+              size="small"
+              icon={<DeleteOutlined />}
+              onClick={del}
+              disabled={deleteLoading}
+            >
               Delete
             </Button>
           </Space>
