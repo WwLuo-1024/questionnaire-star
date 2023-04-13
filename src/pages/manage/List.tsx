@@ -1,13 +1,15 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
+import React, { FC, useEffect, useState, useRef, useMemo } from 'react'
 import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
 // import { useSearchParams } from 'react-router-dom'
-import { useTitle, useDebounceFn } from 'ahooks'
-import { Typography, Spin } from 'antd'
+import { useTitle, useDebounceFn, useRequest } from 'ahooks'
+import { Typography, Spin, Empty } from 'antd'
 import { ListSearch } from '../../components/ListSearch'
 // import { getQuestionListService } from '../../services/question'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import { useSearchParams } from 'react-router-dom'
+import { getQuestionListService } from '../../services/question'
+import { LIST_PAGE_SIZE, LIST_SEARCH_PARAM_KEY } from '../../constant'
 {
   /* Temporary Mock Data */
 }
@@ -77,15 +79,46 @@ export const List: FC = () => {
   const [total, setTotal] = useState(0)
   const haveMoreData = total > list.length //Are there any more unloaded data
   const [searchParams] = useSearchParams() //url params, altough no page and pageSize, keyword
+  const [started, setStarted] = useState(false) //Mark if loading has started
+
+  //The page will reset all data when keyword is changed
+  const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
+  useEffect(() => {
+    setStarted(false)
+    setPage(1)
+    setList([])
+    setTotal(0)
+  }, [keyword])
 
   //active loading
   const containerRef = useRef<HTMLDivElement>(null)
+
   //Real Loading
+  const { run: load, loading } = useRequest(
+    async () => {
+      const data = await getQuestionListService({
+        page,
+        pageSize: LIST_PAGE_SIZE,
+        keyword,
+      })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(result) {
+        const { list: l = [], total = 0 } = result
+        setList(list.concat(l))
+        setTotal(total)
+        setPage(page + 1)
+      },
+    }
+  )
 
   //Try load more
   const { run: tryLoadMore } = useDebounceFn(
     () => {
       const elem = containerRef.current
+      // console.log(containerRef)
       if (elem === null) return
 
       const domReact = elem.getBoundingClientRect()
@@ -93,9 +126,8 @@ export const List: FC = () => {
       const { bottom } = domReact
       //document.body.clientHeight - Viewport size 视口大小
       if (bottom <= document.body.clientHeight) {
-        console.log(bottom)
-        console.log(document.body.clientHeight)
-        console.log('Execute')
+        load()
+        setStarted(true)
       }
     },
     {
@@ -110,14 +142,22 @@ export const List: FC = () => {
 
   //2. Attempt to trigger loading when the page is scrolled
   useEffect(() => {
-    // if (haveMoreData) {
-    window.addEventListener('scroll', tryLoadMore) //Anti-shake 防抖
-    // }
+    if (haveMoreData) {
+      window.addEventListener('scroll', tryLoadMore) //Anti-shake 防抖
+    }
 
     return () => {
       window.removeEventListener('scroll', tryLoadMore) //!!! Unbind events when searchParams change
     }
-  }, [searchParams])
+  }, [searchParams, haveMoreData])
+
+  //Load More
+  const LoadMoreContentElem = useMemo(() => {
+    if (!started || loading) return <Spin />
+    if (total === 0) return <Empty description="No data" />
+    if (!haveMoreData) return <span>No More Data...</span>
+    return <span>Start to load next page</span>
+  }, [started, loading, haveMoreData])
 
   return (
     <>
@@ -130,27 +170,15 @@ export const List: FC = () => {
         </div>
       </div>
       <div className={styles['content']}>
-        {/*Loading */}
-        {/* {loading && (
-          <div style={{ textAlign: 'center' }}>
-            <Spin />
-          </div>
-        )} */}
         {/* Question List */}
-        {/* {!loading &&
-          list.length > 0 &&
+        {list.length > 0 &&
           list.map((q: any) => {
             const { _id } = q
             return <QuestionCard key={_id} {...q} />
-          })} */}
-        <div style={{ height: '2000px' }}></div>
-        {list.map((q: any) => {
-          const { _id } = q
-          return <QuestionCard key={_id} {...q} />
-        })}
+          })}
       </div>
       <div className={styles['footer']}>
-        <div ref={containerRef}>LoadMore...</div>
+        <div ref={containerRef}>{LoadMoreContentElem}</div>
       </div>
     </>
   )
