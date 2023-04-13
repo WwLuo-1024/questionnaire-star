@@ -35,3 +35,20 @@ export async function getQuestionListService(
   const data = (await axios.get(url, { params: opt })) as ResDataType
   return data
 }
+
+//Update individual Questionnaire List (Star)
+export async function updateQuestionService(
+  id: string,
+  opt: { [key: string]: any }
+): Promise<ResDataType> {
+  const url = `/api/question/${id}`
+  const data = (await axios.patch(url, opt)) as ResDataType
+  return data
+}
+
+//Duplicate Questionnaire
+export async function duplicateQuestionService(id: string): Promise<ResDataType> {
+  const url = `/api/question/duplicate/${id}`
+  const data = (await axios.post(url)) as ResDataType
+  return data
+}

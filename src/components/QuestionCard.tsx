@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { updateQuestionService } from '../services/question'
+import { duplicateQuestionService, updateQuestionService } from '../services/question'
 import { useRequest } from 'ahooks'
 
 type PropsType = {
@@ -44,9 +44,22 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
     }
   )
 
-  function duplicate() {
-    message.success('Execute a copy')
-  }
+  // function duplicate() {
+  //   message.success('Execute a copy')
+  // }
+  const { loading: duplicateLoading, run: duplicate } = useRequest(
+    async () => {
+      const data = await duplicateQuestionService(_id)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(res) {
+        message.success('Execute a copy')
+        nav(`/question/edit/${res.id}`) //navigate to edit page
+      },
+    }
+  )
 
   function del() {
     confirm({
@@ -122,6 +135,7 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
               okText="Confirm"
               cancelText="Cancel"
               onConfirm={duplicate}
+              disabled={duplicateLoading}
             >
               <Button type="text" size="small" icon={<CopyOutlined />}>
                 Copy
