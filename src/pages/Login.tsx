@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import styles from './Register.module.scss'
-import { HOME_PATHNAME, REGISTER_PATHNAME } from '../router'
+import { HOME_PATHNAME, MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from '../router'
 import { loginService } from '../services/user'
 import { useRequest } from 'ahooks'
 
@@ -48,7 +48,7 @@ export const Login: FC = () => {
       manual: true,
       onSuccess() {
         message.success('Successfully Login')
-        nav(HOME_PATHNAME)
+        nav(MANAGE_INDEX_PATHNAME)
       },
     }
   )
