@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import styles from './common.module.scss'
 import { QuestionCard } from '../../components/QuestionCard'
-import { useRequest, useTitle } from 'ahooks'
+import { useTitle } from 'ahooks'
 import { Typography, Empty, Spin } from 'antd'
 import { ListSearch } from '../../components/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import ListPage from '../../components/ListPage'
 // const rawQuestionList = [
 //   {
 //     _id: 'q1', //mongoDB DataBase
@@ -67,7 +68,9 @@ export const Star: FC = () => {
           })}
       </div>
 
-      <div className={styles['footer']}>Paging</div>
+      <div className={styles['footer']}>
+        <ListPage total={total} />
+      </div>
     </>
   )
 }
