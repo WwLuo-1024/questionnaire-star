@@ -1,9 +1,11 @@
 import React, { FC, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Typography, Space, Form, Input, Button, Checkbox } from 'antd'
+import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import styles from './Register.module.scss'
-import { REGISTER_PATHNAME } from '../router'
+import { HOME_PATHNAME, REGISTER_PATHNAME } from '../router'
+import { loginService } from '../services/user'
+import { useRequest } from 'ahooks'
 
 const USERNAME_KEY = 'USERNAME'
 const PASSWORD_KEY = 'PASSWORD'
@@ -29,15 +31,31 @@ export const Login: FC = () => {
   // const nav = useNavigate()
   const { Title } = Typography
   const [form] = Form.useForm() //Form hook
+  const nav = useNavigate()
 
   useEffect(() => {
     const { username, password } = getUserInfoFromStorage()
     form.setFieldsValue({ username, password })
   }, [])
 
+  //Login Request
+  const { run } = useRequest(
+    async (username: string, password: string) => {
+      const data = await loginService(username, password)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('Successfully Login')
+        nav(HOME_PATHNAME)
+      },
+    }
+  )
   const onFinish = (values: any) => {
     console.log(values)
     const { username, password, remember } = values || {}
+    run(username, password) // Execute Ajax
 
     if (remember) {
       rememberUser(username, password)
