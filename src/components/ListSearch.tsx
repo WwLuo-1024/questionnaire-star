@@ -23,7 +23,7 @@ export const ListSearch: FC = () => {
   }, [searchParams])
 
   function handleSearch(value: string) {
-    console.log(value)
+    // console.log(value)
     nav({
       pathname,
       search: `${LIST_SEARCH_PARAM_KEY}=${value}`,

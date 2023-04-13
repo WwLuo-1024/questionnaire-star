@@ -7,6 +7,8 @@ import Column from 'antd/es/table/Column'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ListSearch } from '../../components/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import ListPage from '../../components/ListPage'
+
 // const rawQuestionList = [
 //   {
 //     _id: 'q1', //mongoDB DataBase
@@ -124,6 +126,10 @@ export const Recycle: FC = () => {
         )}
         {!loading && list.length === 0 && <Empty description="No Data Available" />}
         {!loading && list.length > 0 && TableElem}
+      </div>
+
+      <div className={styles.footer}>
+        <ListPage total={total} />
       </div>
     </>
   )
