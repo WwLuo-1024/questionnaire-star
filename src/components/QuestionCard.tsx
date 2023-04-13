@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import styles from './QuestionCard.module.scss'
 import { Button, Divider, Space, Tag, Popconfirm, Modal, message } from 'antd'
 import {
@@ -11,6 +11,8 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { updateQuestionService } from '../services/question'
+import { useRequest } from 'ahooks'
 
 type PropsType = {
   _id: string
@@ -26,6 +28,21 @@ const { confirm } = Modal
 export const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, createAt, answerCount, isPublished, isStar } = props
   const nav = useNavigate()
+
+  //Modify Star
+  const [isStarState, setIsStarState] = useState(isStar)
+  const { loading: changeStarLoading, run: changeStar } = useRequest(
+    async () => {
+      await updateQuestionService(_id, { isStar: !isStarState })
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState) //Update Star State
+        message.success('Successfully Updated')
+      },
+    }
+  )
 
   function duplicate() {
     message.success('Execute a copy')
@@ -48,7 +65,7 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
         <div className={styles['left']}>
           <Link to={isPublished ? `/question/statistic/${_id}` : `/question/edit/${_id}`}>
             <Space>
-              {isStar && <StarOutlined style={{ color: 'red' }} />}
+              {isStarState && <StarOutlined style={{ color: 'red' }} />}
               {title}
             </Space>
           </Link>
@@ -91,8 +108,14 @@ export const QuestionCard: FC<PropsType> = (props: PropsType) => {
         </div>
         <div className={styles['right']}>
           <Space>
-            <Button type="text" size="small" icon={<StarOutlined />}>
-              {isStar ? 'Unstar' : 'Star'}
+            <Button
+              type="text"
+              size="small"
+              icon={<StarOutlined />}
+              onClick={changeStar}
+              disabled={changeStarLoading}
+            >
+              {isStarState ? 'Unstar' : 'Star'}
             </Button>
             <Popconfirm
               title="Confirming the duplication of the questionnaire?"
