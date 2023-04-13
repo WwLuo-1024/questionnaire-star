@@ -1,16 +1,33 @@
 import React, { FC } from 'react'
-import { Typography, Space, Form, Input, Button } from 'antd'
+import { Typography, Space, Form, Input, Button, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import styles from './Register.module.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LOGIN_PATHNAME } from '../router'
-import Password from 'antd/es/input/Password'
+import { registerService } from '../services/user'
+import { useRequest } from 'ahooks'
+// import Password from 'antd/es/input/Password'
 
 export const Register: FC = () => {
   const { Title } = Typography
-
+  const nav = useNavigate()
+  const { run } = useRequest(
+    async values => {
+      //"values" stored the user typed value
+      const { username, password, nickname } = values
+      await registerService(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('Successfully Register')
+        nav(LOGIN_PATHNAME)
+      },
+    }
+  )
   const onFinish = (values: any) => {
-    console.log(values)
+    // console.log(values) "values" stored the user typed value
+    run(values)
   }
 
   return (
@@ -74,6 +91,24 @@ export const Register: FC = () => {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+
+          {/* Nickname */}
+          <Form.Item
+            label="Nickname"
+            name="nickname"
+            rules={[
+              { required: false },
+              {
+                type: 'string',
+                min: 5,
+                max: 20,
+                message: 'The length of nickname should between 5-20',
+              },
+              { pattern: /^\w+$/, message: 'Only letter, number and underline are accepted' },
+            ]}
+          >
+            <Input />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
