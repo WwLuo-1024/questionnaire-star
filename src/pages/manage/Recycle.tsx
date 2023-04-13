@@ -8,7 +8,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ListSearch } from '../../components/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import ListPage from '../../components/ListPage'
-import { updateQuestionService } from '../../services/question'
+import { updateQuestionService, deleteQuestionService } from '../../services/question'
 // const rawQuestionList = [
 //   {
 //     _id: 'q1', //mongoDB DataBase
@@ -82,17 +82,27 @@ export const Recycle: FC = () => {
       onSuccess() {
         message.success('Successfully Recovered')
         refresh() //Manually refresh
+        setSelectedIds([])
       },
     }
   )
 
   //Delete question function
+  const { run: deleteQuestion } = useRequest(async () => await deleteQuestionService(seletedIds), {
+    manual: true,
+    onSuccess() {
+      message.success('Successfully Delete')
+      refresh()
+      setSelectedIds([])
+    },
+  })
+
   function del() {
     confirm({
       title: 'Confirming the deletion of the questionnaire?',
       icon: <ExclamationCircleOutlined />,
       content: 'Cannot be retrieved after deletion',
-      onOk: () => message.success(`Delete ${JSON.stringify(seletedIds)}`),
+      onOk: deleteQuestion,
     })
   }
   //We can define a JSX fragment as a variable
