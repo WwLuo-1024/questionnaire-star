@@ -3,6 +3,8 @@ type SearchOption = {
   keyword: string
   isStar: boolean
   isDeleted: boolean
+  page: number //The current page
+  pageSize: number //Total number of pages in the current page
   //page
   //pageSize
   //isStar
