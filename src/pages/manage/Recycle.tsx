@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
-import { QuestionCard } from '../../components/QuestionCard'
-import { useTitle } from 'ahooks'
+// import { QuestionCard } from '../../components/QuestionCard'
+import { useRequest } from 'ahooks'
 import { Typography, Empty, Table, Tag, Button, Space, Modal, message, Spin } from 'antd'
-import Column from 'antd/es/table/Column'
+// import Column from 'antd/es/table/Column'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ListSearch } from '../../components/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import ListPage from '../../components/ListPage'
-
+import { updateQuestionService } from '../../services/question'
 // const rawQuestionList = [
 //   {
 //     _id: 'q1', //mongoDB DataBase
@@ -40,7 +40,7 @@ export const Recycle: FC = () => {
   const { Title } = Typography
 
   // const [questionList, setQuestionList] = useState(rawQuestionList)
-  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { data = {}, loading, refresh } = useLoadQuestionListData({ isDeleted: true })
   const { list = [], total } = data
   const tableColumns = [
     {
@@ -69,6 +69,23 @@ export const Recycle: FC = () => {
 
   const { confirm } = Modal
 
+  //Recovery
+  const { loading: recoverLoading, run: recover } = useRequest(
+    async () => {
+      for await (const id of seletedIds) {
+        await updateQuestionService(id, { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      // debounceWait: 500, //debounce防抖
+      onSuccess() {
+        message.success('Successfully Recovered')
+        refresh() //Manually refresh
+      },
+    }
+  )
+
   //Delete question function
   function del() {
     confirm({
@@ -83,7 +100,11 @@ export const Recycle: FC = () => {
     <>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button type="primary" disabled={seletedIds.length === 0}>
+          <Button
+            type="primary"
+            disabled={seletedIds.length === 0 || recoverLoading}
+            onClick={recover}
+          >
             Recovery
           </Button>
           <Button danger disabled={seletedIds.length === 0} onClick={del}>
