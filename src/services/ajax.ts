@@ -1,11 +1,22 @@
 import axios from 'axios'
 import { message } from 'antd'
+import { getToken } from '../utils/user-token'
 
 const instance = axios.create({
   timeout: 10 * 1000, //10 seconds
 })
 
-// response interception: unified handling of errno and message
+//request interception: Every request with token
+instance.interceptors.request.use(
+  config => {
+    // console.log(getToken())
+    config.headers['Authorization'] = `Bearer ${getToken()}` //JWT constant format
+    return config
+  },
+  error => Promise.reject(error)
+)
+
+// response interception: Unified handling of errno and message
 instance.interceptors.response.use(res => {
   const resData = (res.data || {}) as ResType
   const { errno, data, msg } = resData
