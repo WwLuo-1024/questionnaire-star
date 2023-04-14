@@ -6,6 +6,7 @@ import styles from './Register.module.scss'
 import { HOME_PATHNAME, MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from '../router'
 import { loginService } from '../services/user'
 import { useRequest } from 'ahooks'
+import { setToken } from '../utils/user-token'
 
 const USERNAME_KEY = 'USERNAME'
 const PASSWORD_KEY = 'PASSWORD'
@@ -46,7 +47,10 @@ export const Login: FC = () => {
     },
     {
       manual: true,
-      onSuccess() {
+      onSuccess(result) {
+        //The result here is the returned data above
+        const { token = '' } = result
+        setToken(token)
         message.success('Successfully Login')
         nav(MANAGE_INDEX_PATHNAME)
       },
