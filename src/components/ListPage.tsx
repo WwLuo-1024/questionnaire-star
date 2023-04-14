@@ -28,6 +28,7 @@ const ListPage: FC<PropsType> = (props: PropsType) => {
     // console.log('changed', page, pageSize) //change url params
     searchParams.set(LIST_PAGE_PARAM_KEY, page.toString())
     searchParams.set(LIST_PAGE_SIZE_PARAM_KEY, pageSize.toString())
+    // console.log(searchParams.toString())
     nav({
       pathname,
       search: searchParams.toString(), //Other than changing the page and pageSize, other url parameters are to be carried. For example, you can't have a pagination that doesn't exist when searching

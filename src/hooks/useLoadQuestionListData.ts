@@ -28,7 +28,7 @@ function useLoadQuestionListData(opt: Partial<OptionType> = {}) {
       return data
     },
     {
-      refreshDeps: [searchParams], //Refreshing dependencies
+      refreshDeps: [searchParams], //Refreshing dependencies - When its value changes, the request is retriggered.
     }
   )
 

@@ -24,6 +24,7 @@ function useLoadQuestionData() {
 
   // return { loading, questionData }
   async function load() {
+    // console.log(id)
     const data = await getQuestionService(id)
     return data
   }
