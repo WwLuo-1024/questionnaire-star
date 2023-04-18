@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import EditCanvas from './EditCanvas'
 
 export const Edit: FC = () => {
-  const { loading, data } = useLoadQuestionData()
+  const { loading } = useLoadQuestionData()
   return (
     <div className={styles.container}>
       <div style={{ backgroundColor: '#fff', height: '40px' }}>Header</div>
@@ -18,7 +18,7 @@ export const Edit: FC = () => {
           <div className={styles.main}>
             <div className={styles['canvas-wrapper']}>
               <div style={{ height: '900px' }}>
-                <EditCanvas />
+                <EditCanvas loading={loading} />
               </div>
             </div>
           </div>
