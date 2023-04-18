@@ -1,36 +1,40 @@
 //useLoadQuestionData
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { getQuestionService } from '../services/question'
 import { useRequest } from 'ahooks'
+import { useDispatch } from 'react-redux'
+import { resetComponents } from '../store/ComponentsReducer'
 
 function useLoadQuestionData() {
   const { id = '' } = useParams()
+  const dispatch = useDispatch()
 
-  {
-    /* AJax */
-  }
-  // const [loading, setLoading] = useState(true)
-  // const [questionData, setQuestionData] = useState({})
+  //ajax loading
+  const { data, loading, error, run } = useRequest(
+    async (id: string) => {
+      if (!id) throw new Error('No questionnaire id')
+      const data = await getQuestionService(id)
+      return data
+    },
+    {
+      manual: true,
+    }
+  )
 
-  // useEffect(() => {
-  //   async function fn() {
-  //     const data = await getQuestionService(id)
-  //     setQuestionData(data)
-  //     setLoading(false)
-  //   }
-  //   fn()
-  // }, [])
+  //Accroding to obtained data to set redux store
+  useEffect(() => {
+    if (!data) return
+    const { title = '', componentList = [] } = data
+    dispatch(resetComponents({ componentList }))
+  }, [data])
 
-  // return { loading, questionData }
-  async function load() {
-    // console.log(id)
-    const data = await getQuestionService(id)
-    return data
-  }
+  //determine id change, and execute ajax loading data
+  useEffect(() => {
+    run(id)
+  }, [id])
 
-  const { loading, data, error } = useRequest(load)
-  return { loading, data, error }
+  return { loading, error }
 }
 
 export default useLoadQuestionData
