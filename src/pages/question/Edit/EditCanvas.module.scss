@@ -16,6 +16,10 @@
     }
 }
 
+.selected {
+    border-color: #1890ff !important;
+}
+
 .component {
     pointer-events: none; //Mute mouse behaviour, and prevent mouse to click
 }

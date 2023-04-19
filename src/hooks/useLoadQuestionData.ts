@@ -26,7 +26,16 @@ function useLoadQuestionData() {
   useEffect(() => {
     if (!data) return
     const { title = '', componentList = [] } = data
-    dispatch(resetComponents({ componentList }))
+
+    //Obtain default selectedId
+    let selectedId = ''
+
+    if (componentList.length > 0) {
+      //.length > 0 means that there is at least one value in componentList
+      selectedId = componentList[0].fe_id //Default selectedId is the first component
+    }
+
+    dispatch(resetComponents({ componentList, selectedId }))
   }, [data])
 
   //determine id change, and execute ajax loading data

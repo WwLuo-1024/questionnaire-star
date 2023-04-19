@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ComponentPropsType } from '../../components/QuestionComponents'
+import produce from 'immer'
 
 export type ComponentInfoType = {
   fe_id: string
@@ -9,10 +10,12 @@ export type ComponentInfoType = {
 }
 
 export type ComponentStateType = {
+  selectedId: string
   componentList: Array<ComponentInfoType>
 }
 
 const INIT_STATE: ComponentStateType = {
+  selectedId: '',
   componentList: [],
   //other expands
 }
@@ -25,9 +28,16 @@ export const componentsSlice = createSlice({
     resetComponents(states: ComponentStateType, action: PayloadAction<ComponentStateType>) {
       return action.payload
     },
+
+    // changeSelectedId: (state: ComponentStateType, action: PayloadAction<string>){
+
+    // }
+    changeSelectedId: produce((draft: ComponentStateType, action: PayloadAction<string>) => {
+      draft.selectedId = action.payload //state is still immutable, immer only change the way of writing useState.
+    }),
   },
 })
 
-export const { resetComponents } = componentsSlice.actions
+export const { resetComponents, changeSelectedId } = componentsSlice.actions
 
 export default componentsSlice.reducer

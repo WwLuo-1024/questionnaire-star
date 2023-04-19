@@ -1,18 +1,38 @@
-import React, { FC } from 'react'
+import React, { FC, MouseEvent } from 'react'
 import styles from './EditCanvas.module.scss'
 import { Spin } from 'antd'
-
-import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component'
-import QuestionInput from '../../../components/QuestionComponents/QuestionInput/Component'
+import { getComponentConfByType } from '../../../components/QuestionComponents'
+import { useDispatch } from 'react-redux'
+// import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component'
+// import QuestionInput from '../../../components/QuestionComponents/QuestionInput/Component'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
+import { ComponentInfoType, changeSelectedId } from '../../../store/ComponentsReducer'
+import classNames from 'classnames'
 
 type PropsType = {
   loading: boolean
 }
 
+function genComponent(componentInfo: ComponentInfoType) {
+  const { type, props } = componentInfo
+
+  // console.log(componentInfo)
+  const componentConf = getComponentConfByType(type)
+  if (componentConf == null) return null
+
+  const { Component } = componentConf
+  // console.log(props)
+  return <Component {...props} />
+}
+
 const EditCanvas: FC<PropsType> = ({ loading }) => {
-  const { componentList } = useGetComponentInfo()
+  const { componentList, selectedId } = useGetComponentInfo()
+  const dispatch = useDispatch()
   //   console.log(componentList)
+  function handleClick(event: MouseEvent, id: string) {
+    event.stopPropagation() //Prevent propagation
+    dispatch(changeSelectedId(id))
+  }
 
   if (loading) {
     return (
@@ -23,7 +43,24 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
   }
   return (
     <div className={styles.canvas}>
-      <div className={styles['component-wrapper']}>
+      {componentList.map(c => {
+        const { fe_id } = c
+
+        //convat class name
+        const wrapperDefaultClassName = styles['component-wrapper']
+        const selectedClassName = styles.selected
+        const wrapperClassName = classNames({
+          [wrapperDefaultClassName]: true,
+          [selectedClassName]: fe_id === selectedId,
+        })
+
+        return (
+          <div key={fe_id} className={wrapperClassName} onClick={e => handleClick(e, fe_id)}>
+            <div className={styles.component}>{genComponent(c)}</div>
+          </div>
+        )
+      })}
+      {/* <div className={styles['component-wrapper']}>
         <div className={styles.component}>
           <QuestionTitle />
         </div>
@@ -33,7 +70,7 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
         <div className={styles.component}>
           <QuestionInput />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
