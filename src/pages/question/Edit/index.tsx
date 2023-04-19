@@ -4,6 +4,7 @@ import styles from './index.module.scss'
 import EditCanvas from './EditCanvas'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '../../../store/ComponentsReducer'
+import LeftPanel from './LeftPanel'
 
 export const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
@@ -20,7 +21,9 @@ export const Edit: FC = () => {
       <div className={styles['content-wrapper']}>
         <div className={styles.content}>
           {/* Content Left */}
-          <div className={styles.left}>Left</div>
+          <div className={styles.left}>
+            <LeftPanel />
+          </div>
 
           {/* Content Main */}
           <div className={styles.main} onClick={clearSelected}>

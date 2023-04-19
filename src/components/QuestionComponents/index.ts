@@ -15,6 +15,21 @@ export type ComponentConfType = {
 
 //All components config list
 const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf]
+
+//Grouping of Components
+export const componentConfGroup = [
+  {
+    groupId: 'textGroup',
+    groupName: 'Text Display',
+    components: [QuestionTitleConf],
+  },
+  {
+    groupId: 'inputGroup',
+    groupName: 'User Input',
+    components: [QuestionInputConf],
+  },
+]
+
 export function getComponentConfByType(type: string) {
   return componentConfList.find(c => c.type === type)
 }
