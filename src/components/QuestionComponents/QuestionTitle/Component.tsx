@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import { QuestionTiltePropsType, QuestionTitleDefaultProps } from './interface'
+import { QuestionTitlePropsType, QuestionTitleDefaultProps } from './interface'
 import { Typography } from 'antd'
 
 const { Title } = Typography
-const QuestionTitle: FC<QuestionTiltePropsType> = (props: QuestionTiltePropsType) => {
+const QuestionTitle: FC<QuestionTitlePropsType> = (props: QuestionTitlePropsType) => {
   const { text = '', level = 1, isCenter = false } = { ...QuestionTitleDefaultProps, ...props } //default and imported data 同时解构，props传入的参数会覆盖default参数
   const genFontSize = (level: number) => {
     switch (level) {

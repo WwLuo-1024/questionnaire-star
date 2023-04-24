@@ -5,6 +5,7 @@
 
 import Component from './Component'
 import { QuestionDefaultInputProps } from './interface'
+import PropComponent from './PropComponent'
 
 export * from './interface'
 
@@ -13,5 +14,6 @@ export default {
   title: 'input box',
   type: 'questionInput', //same as backend
   Component,
+  PropComponent,
   defaultProps: QuestionDefaultInputProps,
 }

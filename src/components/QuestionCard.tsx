@@ -15,7 +15,7 @@ import { duplicateQuestionService, updateQuestionService } from '../services/que
 import { useRequest } from 'ahooks'
 
 type PropsType = {
-  _id: string
+  _id: string //Server side is MongoDB
   title: string
   isStar: boolean
   isPublished: boolean

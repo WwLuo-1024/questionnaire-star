@@ -5,6 +5,7 @@
 
 import Component from './Component'
 import { QuestionTitleDefaultProps } from './interface'
+import PropComponent from './PropComponent'
 
 export * from './interface'
 
@@ -12,6 +13,7 @@ export * from './interface'
 export default {
   title: 'Title',
   type: 'questionTitle', //same as backend
-  Component,
+  Component, //Components displayed on canvas
+  PropComponent, //Edit property
   defaultProps: QuestionTitleDefaultProps,
 }
