@@ -13,13 +13,16 @@ import { ComponentInfoType } from '.'
  */
 
 export function getNextSelectedId(fe_id: string, componentList: Array<ComponentInfoType>) {
+  //过滤隐藏组件
+  const visibleComponentList = componentList.filter(c => !c.isHiddern)
+
   const index = componentList.findIndex(c => c.fe_id === fe_id)
   //如果删除空了 base case
   if (index < 0) return ''
 
   //recalulate
   let newSelectedId = ''
-  const length = componentList.length
+  const length = visibleComponentList.length
   if (length <= 1) {
     //the length of component is one, if deleted, then no more components
     newSelectedId = ''
@@ -28,10 +31,10 @@ export function getNextSelectedId(fe_id: string, componentList: Array<ComponentI
     //the length of component greater than one
     if (index + 1 === length) {
       //if delete last one, then should select last one(上一个)
-      newSelectedId = componentList[index - 1].fe_id
+      newSelectedId = visibleComponentList[index - 1].fe_id
     } else {
       //要删除的不是最后一个，删除以后选中下一个
-      newSelectedId = componentList[index + 1].fe_id
+      newSelectedId = visibleComponentList[index + 1].fe_id
     }
   }
 
