@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@types/lodash.clonedeep": "^4.5.7",
     "@types/mockjs": "^1.0.7",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
