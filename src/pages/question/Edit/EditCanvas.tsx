@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { ComponentInfoType, changeSelectedId } from '../../../store/ComponentsReducer'
 import classNames from 'classnames'
+import useBindCanvasKeyPress from '../../../hooks/useBindCanvasKeyPress'
 
 type PropsType = {
   loading: boolean
@@ -33,6 +34,9 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
     event.stopPropagation() //Prevent propagation
     dispatch(changeSelectedId(id))
   }
+
+  //Bind keyPress
+  useBindCanvasKeyPress()
 
   if (loading) {
     return (
