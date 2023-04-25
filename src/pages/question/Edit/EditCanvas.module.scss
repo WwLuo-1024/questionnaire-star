@@ -20,6 +20,11 @@
     border-color: #1890ff !important;
 }
 
+.locked {
+    opacity: .5; //半透明
+    cursor: not-allowed;
+}
+
 .component {
     pointer-events: none; //Mute mouse behaviour, and prevent mouse to click
 }

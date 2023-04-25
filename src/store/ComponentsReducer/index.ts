@@ -7,7 +7,8 @@ export type ComponentInfoType = {
   fe_id: string
   type: string
   title: string
-  isHiddern?: boolean
+  isHidden?: boolean
+  isLocked?: boolean
   props: ComponentPropsType
 }
 
@@ -104,7 +105,19 @@ export const componentsSlice = createSlice({
 
         const curComp = componentList.find(c => c.fe_id === fe_id)
         if (curComp) {
-          curComp.isHiddern = isHidden
+          curComp.isHidden = isHidden
+        }
+      }
+    ),
+
+    //Lock, unLock Component
+    toggleComponentLocked: produce(
+      (draft: ComponentStateType, action: PayloadAction<{ fe_id: string }>) => {
+        const { fe_id } = action.payload
+
+        const curComp = draft.componentList.find(c => c.fe_id === fe_id)
+        if (curComp) {
+          curComp.isLocked = !curComp.isLocked
         }
       }
     ),
@@ -118,6 +131,7 @@ export const {
   changeComponentProps,
   removeSelectedComponent,
   changeComponentHidden,
+  toggleComponentLocked,
 } = componentsSlice.actions
 
 export default componentsSlice.reducer

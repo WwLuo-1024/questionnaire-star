@@ -14,7 +14,7 @@ import { ComponentInfoType } from '.'
 
 export function getNextSelectedId(fe_id: string, componentList: Array<ComponentInfoType>) {
   //过滤隐藏组件
-  const visibleComponentList = componentList.filter(c => !c.isHiddern)
+  const visibleComponentList = componentList.filter(c => !c.isHidden)
 
   const index = componentList.findIndex(c => c.fe_id === fe_id)
   //如果删除空了 base case
