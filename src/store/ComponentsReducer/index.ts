@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ComponentPropsType } from '../../components/QuestionComponents'
+import cloneDeep from 'lodash.clonedeep'
 import produce from 'immer'
 import { getNextSelectedId } from './utils'
+import { nanoid } from 'nanoid'
+import { inserNewComponent } from './utils'
 
 export type ComponentInfoType = {
   fe_id: string
@@ -15,11 +18,13 @@ export type ComponentInfoType = {
 export type ComponentStateType = {
   selectedId: string
   componentList: Array<ComponentInfoType>
+  copiedComponent: ComponentInfoType | null
 }
 
 const INIT_STATE: ComponentStateType = {
   selectedId: '',
   componentList: [],
+  copiedComponent: null,
   //other expands
 }
 
@@ -42,17 +47,7 @@ export const componentsSlice = createSlice({
     //Add new component
     addComponent: produce((draft: ComponentStateType, action: PayloadAction<ComponentInfoType>) => {
       const newComponent = action.payload
-      const { selectedId, componentList } = draft
-      const index = componentList.findIndex(c => c.fe_id === selectedId)
-
-      //Unselect any component
-      if (index < 0) {
-        draft.componentList.push(newComponent)
-      } else {
-        //selected component, then slice to postion behind index
-        draft.componentList.splice(index + 1, 0, newComponent)
-      }
-      draft.selectedId = newComponent.fe_id
+      inserNewComponent(draft, newComponent)
     }),
 
     //Modify Component property
@@ -121,6 +116,27 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+
+    //Copy current selected component
+    copySelectedComponent: produce((draft: ComponentStateType) => {
+      const { selectedId, componentList = [] } = draft
+      const selectedComponent = componentList.find(c => c.fe_id === selectedId)
+      console.log(componentList)
+      if (selectedComponent == null) return
+      draft.copiedComponent = cloneDeep(selectedComponent) //深拷贝
+    }),
+
+    //Paste Component
+    pasteCopiedComponent: produce((draft: ComponentStateType) => {
+      const { copiedComponent } = draft
+      if (copiedComponent == null) return
+
+      //Need to modify fe_id!!!
+      copiedComponent.fe_id = nanoid()
+
+      //index copiedComponent
+      inserNewComponent(draft, copiedComponent)
+    }),
   },
 })
 
@@ -132,6 +148,8 @@ export const {
   removeSelectedComponent,
   changeComponentHidden,
   toggleComponentLocked,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } = componentsSlice.actions
 
 export default componentsSlice.reducer

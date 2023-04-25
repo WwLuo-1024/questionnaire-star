@@ -35,7 +35,7 @@ function useLoadQuestionData() {
       selectedId = componentList[0].fe_id //Default selectedId is the first component
     }
 
-    dispatch(resetComponents({ componentList, selectedId }))
+    dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }))
   }, [data])
 
   //determine id change, and execute ajax loading data

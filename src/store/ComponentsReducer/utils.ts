@@ -3,7 +3,7 @@
 The method getNextSelectedId is used to automatically change the selected state when a component is selected for deletion (moves to the next one or disappears when there are no components to delete)
 */
 
-import { ComponentInfoType } from '.'
+import { ComponentInfoType, ComponentStateType } from '.'
 
 /**
  * Obtain selectedId
@@ -39,4 +39,23 @@ export function getNextSelectedId(fe_id: string, componentList: Array<ComponentI
   }
 
   return newSelectedId
+}
+
+/**
+ * Insert new Component
+ * @param draft state draft
+ * @param newComponent new Component
+ */
+export function inserNewComponent(draft: ComponentStateType, newComponent: ComponentInfoType) {
+  const { selectedId, componentList } = draft
+  const index = componentList.findIndex(c => c.fe_id === selectedId)
+
+  //Unselect any component
+  if (index < 0) {
+    draft.componentList.push(newComponent)
+  } else {
+    //selected component, then slice to postion behind index
+    draft.componentList.splice(index + 1, 0, newComponent)
+  }
+  draft.selectedId = newComponent.fe_id
 }
