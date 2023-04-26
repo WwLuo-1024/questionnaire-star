@@ -11,7 +11,7 @@ const Component: FC<QuestionParagraphPropsType> = (props: QuestionParagraphProps
   const textListr = text.split('\n') //example: ['hello', '123', '456']
 
   return (
-    <Paragraph style={{ textAlign: isCenter ? 'center' : 'start', marginBottom: '0' }}>
+    <Paragraph strong style={{ textAlign: isCenter ? 'center' : 'start', marginBottom: '0' }}>
       {textListr.map((t, index) => (
         <span key={index}>
           {index > 0 && <br />}

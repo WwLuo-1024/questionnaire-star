@@ -7,7 +7,7 @@ const Component: FC<QuestionRadioPropsType> = (props: QuestionRadioPropsType) =>
   const { Paragraph } = Typography
   return (
     <div>
-      <Paragraph>{title}</Paragraph>
+      <Paragraph strong>{title}</Paragraph>
       <Radio.Group value={value}>
         <Space direction={isVertical ? 'vertical' : 'horizontal'}>
           {options.map(opt => {
