@@ -1,9 +1,12 @@
 import { FC } from 'react'
 import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput'
 import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle'
+import QuestionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph'
 
 //Unite) The props type of each component
-export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType
+export type ComponentPropsType = QuestionInputPropsType &
+  QuestionTitlePropsType &
+  QuestionParagraphPropsType
 
 //Unite) Component config
 export type ComponentConfType = {
@@ -15,14 +18,18 @@ export type ComponentConfType = {
 }
 
 //All components config list
-const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf]
+const componentConfList: ComponentConfType[] = [
+  QuestionInputConf,
+  QuestionTitleConf,
+  QuestionParagraphConf,
+]
 
 //Grouping of Components
 export const componentConfGroup = [
   {
     groupId: 'textGroup',
     groupName: 'Text Display',
-    components: [QuestionTitleConf],
+    components: [QuestionTitleConf, QuestionParagraphConf],
   },
   {
     groupId: 'inputGroup',
