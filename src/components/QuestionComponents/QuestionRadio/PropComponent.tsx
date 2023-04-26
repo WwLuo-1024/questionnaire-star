@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react'
-import { QuestionRadioPropsType } from './interface'
+import { QuestionRadioPropsType, OptionType } from './interface'
 import { Form, Input, Checkbox, Select, Button, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { nanoid } from 'nanoid'
 
 const PropComponent: FC<QuestionRadioPropsType> = (props: QuestionRadioPropsType) => {
   const { title, isVertical, value, options = [], onChange, disabled } = props
@@ -14,6 +15,20 @@ const PropComponent: FC<QuestionRadioPropsType> = (props: QuestionRadioPropsType
   function handleValuesChange() {
     if (onChange == null) return
     //Trigge onChange function
+    const newValues = form.getFieldsValue() as QuestionRadioPropsType
+
+    if (newValues.options) {
+      //Need to clear the option with text undefined
+      newValues.options = newValues.options.filter(opt => !(opt.text == null))
+    }
+
+    const { options = [] } = newValues
+    options.forEach(opt => {
+      if (opt.value) return
+      opt.value = nanoid(5) //Complete the opt value otherwise null value
+    })
+
+    onChange(newValues)
   }
   return (
     <Form
@@ -42,7 +57,22 @@ const PropComponent: FC<QuestionRadioPropsType> = (props: QuestionRadioPropsType
                     {/* Current option input box */}
                     <Form.Item
                       name={[name, 'text']}
-                      rules={[{ required: true, message: 'Please enter option words' }]}
+                      rules={[
+                        { required: true, message: 'Please enter option words' },
+
+                        {
+                          validator: (_, text) => {
+                            const { options = [] } = form.getFieldsValue() //以下text为当前text值
+                            let num = 0
+                            options.forEach((opt: OptionType) => {
+                              if (opt.text === text) num++ //Record the number of same text, expected only one
+                            })
+
+                            if (num === 1) return Promise.resolve()
+                            return Promise.reject(new Error('Same as other options'))
+                          },
+                        },
+                      ]}
                     >
                       <Input placeholder="Please enter option words..." />
                     </Form.Item>
