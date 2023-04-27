@@ -50,11 +50,12 @@ const PropComponent: FC<QuestionCheckboxPropsType> = (props: QuestionCheckboxPro
             <>
               {/* Iterate each option */}
               {fields.map(({ key, name }, index) => {
+                console.log(fields)
                 return (
                   <Space key={key} align="baseline">
                     {/* Current option whether selected of unselected*/}
                     {/* 由于Checkbox没有value属性 因此使用valuePropName代替 */}
-                    <Form.Item name={[name, 'checled']} valuePropName="checked">
+                    <Form.Item name={[name, 'checked']} valuePropName="checked">
                       <Checkbox />
                     </Form.Item>
 
