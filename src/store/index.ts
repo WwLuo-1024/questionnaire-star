@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { UserStateType } from './userReducer'
 import componentReducer, { ComponentStateType } from './ComponentsReducer'
+import pageInfoReducer, { PageInfoType } from './pageInfoReducer'
 
 export type StateType = {
   user: UserStateType
   components: ComponentStateType
+  pageInfo: PageInfoType
 }
 
 export default configureStore({
@@ -14,6 +16,7 @@ export default configureStore({
     components: componentReducer,
     //component list
 
-    //questionnaire info
+    //Page info
+    pageInfo: pageInfoReducer,
   },
 })
