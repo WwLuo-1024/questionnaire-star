@@ -17,6 +17,8 @@ const PropComponent: FC<QuestionInfoPropsType> = (props: QuestionInfoPropsType) 
     }
   }
 
+  console.log(title)
+
   return (
     <Form
       layout="vertical"
@@ -27,7 +29,7 @@ const PropComponent: FC<QuestionInfoPropsType> = (props: QuestionInfoPropsType) 
     >
       <Form.Item
         label="Title"
-        name={title}
+        name="title"
         rules={[{ required: true, message: 'Please enter the questionnaire title' }]}
       >
         <Input />

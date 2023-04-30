@@ -22,9 +22,14 @@ const pageInfoSlice = createSlice({
     resetPageInfo(state: PageInfoType, action: PayloadAction<PageInfoType>) {
       return action.payload
     },
+
+    //Modigy page title
+    changePageTitle: produce((draft: PageInfoType, action: PayloadAction<string>) => {
+      draft.title = action.payload
+    }),
   },
 })
 
-export const { resetPageInfo } = pageInfoSlice.actions
+export const { resetPageInfo, changePageTitle } = pageInfoSlice.actions
 
 export default pageInfoSlice.reducer
