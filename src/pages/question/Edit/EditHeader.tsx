@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import styles from './EditHeader.module.scss'
-import { Button, Typography, Space, Input } from 'antd'
+import { Button, Typography, Space, Input, message } from 'antd'
 import { EditOutlined, LeftOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useNavigate, useParams } from 'react-router-dom'
 import EditToolBar from './EditToolBar'
@@ -44,6 +44,7 @@ const TitleElem: FC = () => {
   )
 }
 
+//Save Button
 const SaveButton: FC = () => {
   //id+ pageInfo + componentList
   const { componentList } = useGetComponentInfo()
@@ -83,6 +84,39 @@ const SaveButton: FC = () => {
   )
 }
 
+//Publish Button
+const PublishButton: FC = () => {
+  //publish ==> isPublished = true (update)
+  const { id } = useParams()
+  const { componentList = [] } = useGetComponentInfo()
+  const pageInfo = useGetPageInfo()
+  const nav = useNavigate()
+
+  const { loading, run: publish } = useRequest(
+    async () => {
+      if (!id) return
+      await updateQuestionService(id, {
+        ...pageInfo,
+        componentList,
+        isPublished: true, //标志着问卷已经被发布
+      })
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('Successfully Published')
+        nav('/question/statistic/' + id) //发布成功 跳转到统计页面
+      },
+    }
+  )
+
+  return (
+    <Button type="primary" onClick={publish} disabled={loading}>
+      Publish
+    </Button>
+  )
+}
+
 //Edit page Header
 const EditHeader: FC = () => {
   const nav = useNavigate()
@@ -101,13 +135,15 @@ const EditHeader: FC = () => {
             </Title>
           </Space>
         </div>
+
         <div className={styles.main}>
           <EditToolBar />
         </div>
+
         <div className={styles.right}>
           <Space>
             <SaveButton />
-            <Button type="primary">Post</Button>
+            <PublishButton />
           </Space>
         </div>
       </div>
