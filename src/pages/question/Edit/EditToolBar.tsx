@@ -2,8 +2,10 @@ import {
   BlockOutlined,
   CopyOutlined,
   DeleteOutlined,
+  DownOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
+  UpOutlined,
 } from '@ant-design/icons'
 import { Button, Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
@@ -18,8 +20,12 @@ import { pasteCopiedComponent } from '../../../store/ComponentsReducer'
 const EditToolBar: FC = () => {
   const dispatch = useDispatch()
 
-  const { selectedId, selectedComponent, copiedComponent } = useGetComponentInfo()
+  const { selectedId, componentList, selectedComponent, copiedComponent } = useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
+  const length = componentList.length
+  const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId)
+  const isFirst = selectedIndex <= 0 //First One
+  const isLast = selectedIndex + 1 >= length //Last One
 
   //Delete Component
   function handleDelete() {
@@ -44,6 +50,16 @@ const EditToolBar: FC = () => {
   //Paste Component
   function paste() {
     dispatch(pasteCopiedComponent())
+  }
+
+  //Move Up
+  function moveUp() {
+    //
+  }
+
+  //Move Down
+  function moveDown() {
+    //
   }
 
   return (
@@ -80,6 +96,21 @@ const EditToolBar: FC = () => {
           icon={<BlockOutlined />}
           onClick={paste}
           disabled={copiedComponent === null}
+        ></Button>
+      </Tooltip>
+
+      {/* Move Up */}
+      <Tooltip>
+        <Button shape="circle" icon={<UpOutlined />} onClick={moveUp} disabled={isFirst}></Button>
+      </Tooltip>
+
+      {/* Move Down */}
+      <Tooltip>
+        <Button
+          shape="circle"
+          icon={<DownOutlined />}
+          onClick={moveDown}
+          disabled={isLast}
         ></Button>
       </Tooltip>
     </Space>

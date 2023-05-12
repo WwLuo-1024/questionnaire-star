@@ -160,6 +160,28 @@ export const componentsSlice = createSlice({
 
       draft.selectedId = componentList[selectedIndex + 1].fe_id
     }),
+
+    //Change component title
+    changeComponentTitle: produce(
+      (draft: ComponentStateType, action: PayloadAction<{ fe_id: string; title: string }>) => {
+        const { title, fe_id } = action.payload
+
+        const curComp = draft.componentList.find(c => c.fe_id === fe_id)
+        if (curComp) curComp.title = title
+      }
+    ),
+
+    //MoveComponent
+    // moveComponent: produce(
+    //   (
+    //     draft: ComponentStateType,
+    //     action: PayloadAction<{ oldIndex: number; newIndex: number }>
+    //   ) => {
+    //     const { componentList: curComponentList } = draft
+    //     const {oldIndex, newIndex} = action.payload
+    //     draft.componentList = arraryMove
+    //   }
+    // ),
   },
 })
 
@@ -175,6 +197,7 @@ export const {
   pasteCopiedComponent,
   selectPrevComponent,
   selectNextComponent,
+  changeComponentTitle,
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
