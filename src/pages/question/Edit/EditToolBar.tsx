@@ -10,7 +10,7 @@ import {
 import { Button, Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { removeSelectedComponent } from '../../../store/ComponentsReducer'
+import { moveComponent, removeSelectedComponent } from '../../../store/ComponentsReducer'
 import { changeComponentHidden } from '../../../store/ComponentsReducer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { toggleComponentLocked } from '../../../store/ComponentsReducer'
@@ -54,12 +54,14 @@ const EditToolBar: FC = () => {
 
   //Move Up
   function moveUp() {
-    //
+    if (isFirst) return
+    dispatch(moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }))
   }
 
   //Move Down
   function moveDown() {
-    //
+    if (isLast) return
+    dispatch(moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex + 1 }))
   }
 
   return (
