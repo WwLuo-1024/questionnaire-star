@@ -26,7 +26,14 @@ function useLoadQuestionData() {
   //Accroding to obtained data to set redux store
   useEffect(() => {
     if (!data) return
-    const { title = '', desc, js, css, componentList = [] } = data
+    const {
+      title = '',
+      desc = '',
+      js = '',
+      css = '',
+      isPublished = false,
+      componentList = [],
+    } = data
 
     //Obtain default selectedId
     let selectedId = ''
@@ -39,7 +46,7 @@ function useLoadQuestionData() {
     //把componentList 存储到 Redux store中
     dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }))
     //把pageInfo存储到redux store中
-    dispatch(resetPageInfo({ title, desc, js, css }))
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }))
   }, [data])
 
   //determine id change, and execute ajax loading data
