@@ -7,14 +7,19 @@ import { changeSelectedId } from '../../../store/ComponentsReducer'
 import LeftPanel from './LeftPanel'
 import RightPanel from './RightPanel'
 import EditHeader from './EditHeader'
+import useGetPageInfo from '../../../hooks/useGetPageInfo'
+import { useTitle } from 'ahooks'
 
 export const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
   const dispatch = useDispatch()
+  const { title } = useGetPageInfo()
 
   function clearSelected() {
     dispatch(changeSelectedId(''))
   }
+
+  useTitle(`Questionnaire Edit - ${title}`)
 
   return (
     <div className={styles.container}>
