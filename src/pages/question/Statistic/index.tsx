@@ -7,6 +7,7 @@ import { useTitle } from 'ahooks'
 import styles from './index.module.scss'
 import StatHeader from './StatHeader'
 import ComponentList from './ComponentList'
+import PageStat from './PageStat'
 
 export const Statistic: FC = () => {
   const { loading } = useLoadQuestionData()
@@ -54,7 +55,13 @@ export const Statistic: FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.main}>MAIN</div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
         <div className={styles.right}>RIGHT</div>
       </>
     )
