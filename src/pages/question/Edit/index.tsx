@@ -10,7 +10,7 @@ import EditHeader from './EditHeader'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 import { useTitle } from 'ahooks'
 
-export const Edit: FC = () => {
+const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
   const dispatch = useDispatch()
   const { title } = useGetPageInfo()
@@ -52,3 +52,5 @@ export const Edit: FC = () => {
     </div>
   )
 }
+
+export default Edit

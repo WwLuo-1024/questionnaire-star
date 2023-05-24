@@ -9,7 +9,7 @@ import StatHeader from './StatHeader'
 import ComponentList from './ComponentList'
 import PageStat from './PageStat'
 
-export const Statistic: FC = () => {
+const Statistic: FC = () => {
   const { loading } = useLoadQuestionData()
   const { title, isPublished } = useGetPageInfo()
   const nav = useNavigate()
@@ -77,3 +77,5 @@ export const Statistic: FC = () => {
     </div>
   )
 }
+
+export default Statistic
