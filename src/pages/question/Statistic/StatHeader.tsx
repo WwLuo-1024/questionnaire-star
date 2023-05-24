@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useMemo } from 'react'
 import styles from './StatHeader.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { Space, Button, Typography, Input, Tooltip, message, Popover } from 'antd'
@@ -25,7 +25,32 @@ const StatHeader: FC = () => {
     message.success('Copy Success')
   }
 
-  function genLinkAndQRCodeElem() {
+  // function genLinkAndQRCodeElem() {
+  //   if (!isPublished) return null
+  //   const url = `http://localhost:8000/question/${id}` //splice url, need to refer to C-cide rules
+
+  //   //QRCODE
+  //   const QRCodeElem = (
+  //     <div style={{ textAlign: 'center' }}>
+  //       <QRCode value={url} size={150} />
+  //     </div>
+  //   )
+
+  //   return (
+  //     <Space>
+  //       <Input value={url} style={{ width: '300px' }} ref={urlInputRef} />
+  //       <Tooltip title="Copy Link">
+  //         <Button icon={<CopyOutlined />} onClick={copy} />
+  //       </Tooltip>
+  //       <Popover content={QRCodeElem}>
+  //         <Button icon={<QrcodeOutlined />} />
+  //       </Popover>
+  //     </Space>
+  //   )
+  // }
+
+  //using useMemo 1. 依赖项是否经常变化； 2. 缓存的元素是否创建成本较高
+  const LinkAndQRCodeElem = useMemo(() => {
     if (!isPublished) return null
     const url = `http://localhost:8000/question/${id}` //splice url, need to refer to C-cide rules
 
@@ -47,7 +72,7 @@ const StatHeader: FC = () => {
         </Popover>
       </Space>
     )
-  }
+  }, [id, isPublished])
 
   return (
     <div className={styles['header-wrapper']}>
@@ -60,7 +85,7 @@ const StatHeader: FC = () => {
             <Title>{title}</Title>
           </Space>
         </div>
-        <div className={styles.main}>{genLinkAndQRCodeElem()}</div>
+        <div className={styles.main}>{LinkAndQRCodeElem}</div>
         <div className={styles.right}>
           <Button type="primary" onClick={() => nav(`/question/edit/${id}`)}>
             Edit Questionnaire
